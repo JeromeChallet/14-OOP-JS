@@ -24,3 +24,32 @@ const jerome = new Person('jerome', 1986);
 const jack = new Person('Jack', 1975);
 
 console.log(jerome instanceof Person); // true
+
+////////////PROTOTYPES////////////
+// each function in JS has a property called prototype
+// adding a method to the prototype property
+// with this method, all instances can re-use this function with having it being copied all the time
+// this is prototypal inheritance
+Person.prototype.calcAge = function () {
+  console.log(2037 - this.birthYear);
+};
+
+jerome.calcAge(); //51
+// prototype of jerome instance
+// the prototype of jerome object is the prototype property of the constructor function
+console.log(jerome.__proto__);
+// Person.prototype is not the prototype of Person
+// but instead will be used as teh prototype of all the objects
+// that are created with the Person constructor function
+// you could the prototype property is prototypeOfLinkedObjects
+console.log(jerome.__proto__ === Person.prototype); // true
+
+// used to check if it is the prorotype of an object
+console.log(Person.prototype.isPrototypeOf(jerome)); // true
+
+Person.prototype.species = 'Homo Sapiens';
+// now they have species in the __proto__
+console.log(jerome, jack);
+// however this new speices property is not directly in the object
+console.log(jerome.hasOwnProperty('firstName')); //true
+console.log(jerome.hasOwnProperty('species')); //false
