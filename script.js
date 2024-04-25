@@ -79,3 +79,36 @@ console.log(arr.unique()); // [4, 5, 6, 9, 3]
 
 const h1 = document.querySelector('h1');
 console.dir(x => x + 1);
+
+////////////CLASSES////////////
+// 1. classes are not hoisted, we must declare them before using them
+// 2. classes are 1st class citizen that can be passed to functions and also returned from functions
+// 3. classes are executed in strict mode
+// behind the scenes classes are a special kind of function
+// class expression
+//const PersonCl =class{}
+// class declaration
+class PersonCl {
+  // the first thing to do is to add a constructor method
+  // the constructor is automatically called when we create a new object
+  // this is where we pass the properties for the arguments we want the function to have
+  constructor(firstName, birthYear) {
+    this.firstName = firstName;
+    this.birthYear = birthYear;
+  }
+
+  // this method written outside the constructor will be onto the prototype and not the object itself
+  calcAge() {
+    console.log(2037 - this.birthYear);
+  }
+}
+
+const jay = new PersonCl('jay', 1996);
+console.log(jay);
+
+// adding a method manually to the prototype
+PersonCl.prototype.greet = function () {
+  console.log(`hello ${this.firstName}`);
+};
+
+jay.greet(); // hello jay
