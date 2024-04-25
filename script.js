@@ -53,3 +53,29 @@ console.log(jerome, jack);
 // however this new speices property is not directly in the object
 console.log(jerome.hasOwnProperty('firstName')); //true
 console.log(jerome.hasOwnProperty('species')); //false
+
+////////////PROTOTYPAL INHERITANCE////////////
+console.log(jerome.__proto__);
+console.log(jerome.__proto__.__proto__);
+console.log(jerome.__proto__.__proto__.__proto__); // null
+
+console.dir(Person.prototype.constructor); //function
+
+const arr = [3, 6, 4, 6, 3, 5, 6, 9, 3]; // new Array === []
+console.log(arr.__proto__);
+// the prototype property of the constructor is gonna
+// the prototype of all the objects created by that constructor
+console.log(arr.__proto__ === Array.prototype);
+console.log(arr.__proto__.__proto__);
+
+// any array inherit its method through its prototype
+// we add a method to Array meaning all created arrays will inherit it
+// the following returns array with unique values
+Array.prototype.unique = function () {
+  return [...new Set(this)];
+};
+
+console.log(arr.unique()); // [4, 5, 6, 9, 3]
+
+const h1 = document.querySelector('h1');
+console.dir(x => x + 1);
