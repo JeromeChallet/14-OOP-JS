@@ -6,10 +6,10 @@
 // 2. the function is called and this = {}
 // 3. the new empty object is linked to a prototype
 // 4. function automically return the empty object from the begining
-const Person = function (firstName, birthYear) {
+const Person = function (fullName, birthYear) {
   // these the instance properties
   this.birthYear = birthYear;
-  this.firstName = firstName;
+  this.fullName = fullName;
 
   // never create a method inside a constructor function
   // because it creates a copy for each instance thus very slow
@@ -51,7 +51,7 @@ Person.prototype.species = 'Homo Sapiens';
 // now they have species in the __proto__
 console.log(jerome, jack);
 // however this new speices property is not directly in the object
-console.log(jerome.hasOwnProperty('firstName')); //true
+console.log(jerome.hasOwnProperty('fullName')); //true
 console.log(jerome.hasOwnProperty('species')); //false
 
 ////////////PROTOTYPAL INHERITANCE////////////
@@ -92,8 +92,8 @@ class PersonCl {
   // the first thing to do is to add a constructor method
   // the constructor is automatically called when we create a new object
   // this is where we pass the properties for the arguments we want the function to have
-  constructor(firstName, birthYear) {
-    this.firstName = firstName;
+  constructor(fullName, birthYear) {
+    this.fullName = fullName;
     this.birthYear = birthYear;
   }
 
@@ -101,14 +101,56 @@ class PersonCl {
   calcAge() {
     console.log(2037 - this.birthYear);
   }
+
+  get age() {
+    return 2037 - this.birthYear;
+  }
+
+  // the setter will check if it is a full name
+  // we are creating a setter for a property name that already exist we use _
+  // we are creating a new _fullname variable
+  set fullName(name) {
+    if (name.includes(' ')) this._fullName = name;
+    else alert(`${name} is not a full name`);
+  }
 }
 
-const jay = new PersonCl('jay', 1996);
+const jay = new PersonCl('jay davis', 1996);
 console.log(jay);
+console.log(jay.age); // 41
 
 // adding a method manually to the prototype
 PersonCl.prototype.greet = function () {
-  console.log(`hello ${this.firstName}`);
+  console.log(`hello ${this.fullName}`);
 };
 
 jay.greet(); // hello jay
+
+const walter = new PersonCl('walter white', 1965);
+
+////////////SETTERS AND GETTERS////////////
+// every object has setters and getters that are assessor properties
+// normal properties are data properties
+// they are usefull for data validation
+const account = {
+  owner: 'jerome',
+  movements: [200, 530, 120, 300],
+
+  //getter
+  get latest() {
+    return this.movements.slice(-1).pop();
+  },
+
+  //setter
+  // needs to have exactly one parameter
+  set latest(mov) {
+    this.movements.push(mov);
+  },
+};
+
+// usefull when we want to read something as a property but still need to do calculations
+console.log(account.latest); // 300
+
+// setter use
+account.latest = 50;
+console.log(account.movements); // [200, 530, 120, 300, 50]
