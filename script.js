@@ -25,6 +25,12 @@ const jack = new Person('Jack', 1975);
 
 console.log(jerome instanceof Person); // true
 
+Person.hey = function () {
+  console.log('hey there');
+  console.log(this); // entire contructor function
+};
+Person.hey();
+
 ////////////PROTOTYPES////////////
 // each function in JS has a property called prototype
 // adding a method to the prototype property
@@ -97,6 +103,7 @@ class PersonCl {
     this.birthYear = birthYear;
   }
 
+  // instance emethod
   // this method written outside the constructor will be onto the prototype and not the object itself
   calcAge() {
     console.log(2037 - this.birthYear);
@@ -113,6 +120,14 @@ class PersonCl {
     if (name.includes(' ')) this._fullName = name;
     else alert(`${name} is not a full name`);
   }
+
+  //static method
+  get fullName() {
+    return this._fullName;
+    console.log(this);
+  }
+
+  static hey() {}
 }
 
 const jay = new PersonCl('jay davis', 1996);
@@ -127,6 +142,8 @@ PersonCl.prototype.greet = function () {
 jay.greet(); // hello jay
 
 const walter = new PersonCl('walter white', 1965);
+
+PersonCl.hey();
 
 ////////////SETTERS AND GETTERS////////////
 // every object has setters and getters that are assessor properties
@@ -154,3 +171,6 @@ console.log(account.latest); // 300
 // setter use
 account.latest = 50;
 console.log(account.movements); // [200, 530, 120, 300, 50]
+
+////////////STATIC METHODS////////////
+// it's function that belong to the class itself instead of one of its instances
