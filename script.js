@@ -174,3 +174,34 @@ console.log(account.movements); // [200, 530, 120, 300, 50]
 
 ////////////STATIC METHODS////////////
 // it's function that belong to the class itself instead of one of its instances
+
+////////////OBJECT.CREATE////////////
+// set the prototype of an object to any other object that we want
+// create an object that we want to be the prototype of all person objects
+
+// here is the method that we want the Person object to inherit
+const PersonProto = {
+  calcAge() {
+    console.log(2037 - this.birthYear);
+  },
+
+  init(firstName, birthYear) {
+    this.firstName = firstName;
+    this.birthYear = birthYear;
+  },
+};
+
+// now we just need to create a person object with the object above as the prototype
+// will return a brand new object that is linked to the prototype that we passed in here
+// the steven object is created and linked to the PersonProto object that is its prototype
+const steven = object.create(PersonProto);
+console.log(steven);
+steven.name = 'steven';
+steven.birthYear = 2002;
+steven.calcAge(); // 35
+
+console.log(steven.__proto__ === PersonProto); //true
+
+const sarah = Object.create(PersonProto);
+sarah.init('sarah', 1979);
+sarah.calcAge();
