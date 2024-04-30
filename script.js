@@ -302,3 +302,48 @@ const james = Object.create(StudentProto);
 james.init('james', 2010, 'comp science');
 james.introduce();
 james.calcAge();
+
+////////////ANOTHER CLASS EXAMPLE////////////
+
+class Account {
+  constructor(owner, currency, pin) {
+    this.owner = owner;
+    this.currency = currency;
+    this.pin = pin;
+    this.movements = [];
+    this.locale = navigator.language;
+
+    console.log(`thanks you mr ${owner}`);
+  }
+
+  // it is better to create methods that interact with the properties
+  // these are the interface to our object, API
+  deposit(val) {
+    this.movements.push(val);
+  }
+
+  withdraw(val) {
+    this.deposit(-val);
+  }
+
+  approveLoan(val) {
+    return true;
+  }
+
+  requestLoan(val) {
+    if (this.approveLoan(val)) {
+      this.deposit(val);
+      console.log('loan approved');
+    }
+  }
+}
+
+const acc1 = new Account('jerome', 'eur', 1111);
+
+acc1.deposit(250);
+acc1.withdraw(140);
+acc1.requestLoan(1000);
+acc1.approveLoan(1000); // we can but shouldnt be allowed to access this method
+
+console.log(acc1);
+console.log(acc1.pin); // we can but shouldnt access that
