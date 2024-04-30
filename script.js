@@ -269,8 +269,36 @@ class StudentCl extends PersonCl {
       }`
     );
   }
+  init(firstName, birthYear) {
+    this.firstName = firstName;
+    this.birthYear = birthYear;
+  }
 }
 
 const martha = new StudentCl('martha', 2012, ' comp science');
 martha.introduce();
 martha.calcAge();
+
+////////////INHERITANCE BETWEEN CLASSES OBJECT CREATE////////////
+// here we are not faking classes but linking objects together
+// where some objects serve as the prototype of other objects
+const steven = Object.create(PersonProto);
+
+// make student inherit directly from person
+// PersonProto is now the prototype of StudentProto object
+const StudentProto = Object.create(PersonProto);
+StudentProto.init = function (firstName, birthYear, course) {
+  //we make the child protoype use the init from the parent prototype
+  PersonProto.init.call(this, firstName, birthYear);
+  this.course = course;
+};
+
+StudentProto.introduce = function () {
+  console.log(`my name is ${this.firstName} and i study ${this.course}`);
+};
+
+// we make StudentProto the prototype of the james object
+const james = Object.create(StudentProto);
+james.init('james', 2010, 'comp science');
+james.introduce();
+james.calcAge();
