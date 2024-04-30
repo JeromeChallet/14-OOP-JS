@@ -244,3 +244,33 @@ console.log(mike instanceof Object); // true
 
 Student.prototype.constructor = Student;
 console.dir(Student.prototype.constructor);
+
+////////////INHERITANCE BETWEEN CLASSES ES6 CLASSES////////////
+// to implement inheritance between es6 classes
+// we need the extend keyword and the super function
+// to make the Student class inherit from the Person class
+// this will link the prototypes behind the scene
+// if you dont need any new properties then you dont need to write a constructor in teh child class
+class StudentCl extends PersonCl {
+  constructor(fullName, birthYear, course) {
+    //super is basically the constructor function of the parent class
+    //super needs to happen first
+    super(fullName, birthYear);
+    this.course = course;
+  }
+  introduce() {
+    console.log(`my name is ${this.firstName} and i study ${this.course}`);
+  }
+  //this will overide the method from the parent class
+  calcAge() {
+    console.log(
+      `im ${2037 - this.birthYear} years old but i feel like ${
+        2037 - this.birthYear + 10
+      }`
+    );
+  }
+}
+
+const martha = new StudentCl('martha', 2012, ' comp science');
+martha.introduce();
+martha.calcAge();
