@@ -205,3 +205,42 @@ console.log(steven.__proto__ === PersonProto); //true
 const sarah = Object.create(PersonProto);
 sarah.init('sarah', 1979);
 sarah.calcAge();
+
+////////////INHERITANCE BETWEEN CLASSES CONSTRUCTOR FUNCTIONS////////////
+// construtor function for the Person
+const Person = function (firstName, birthYear) {
+  this.firstName = firstName;
+  this.birthYear = birthYear;
+};
+
+Person.prototype.calcAge = function () {
+  console.log(2037 - this.birthYear);
+};
+
+// construtor function for the Student
+const Student = function (firstName, birthYear, course) {
+  // we want this keyword inside Student to be the this keyword inside Person therefore we declare it here
+  Person.call(this, firstName, birthYear);
+  this.course = course;
+};
+
+// Objec.create insures it inherits from Person, otherwise it would be a copy
+Student.prototype = Object.create(Person.prototype);
+
+Student.prototype.introduce = function () {
+  console.log(`my name is ${this.firstName} and i study ${this.course}`);
+};
+
+const mike = new Student('mike', 2020, 'comp science');
+mike.introduce();
+mike.calcAge(); //17
+
+console.log(mike.__proto__);
+console.log(mike.__proto__.__proto__); // Person.prototype.calcAge
+
+console.log(mike instanceof Student); // true
+console.log(mike instanceof Person); // true
+console.log(mike instanceof Object); // true
+
+Student.prototype.constructor = Student;
+console.dir(Student.prototype.constructor);
