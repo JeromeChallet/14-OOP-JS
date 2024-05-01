@@ -305,26 +305,47 @@ james.calcAge();
 
 ////////////ANOTHER CLASS EXAMPLE////////////
 
+////////////ENCAPSULATION PROTECTED PROPERTIES AND METHODS////////////
+// encapsulation keeps properties pprivate and secured while exposing what is necessary with an API
+// we can fake encapsulation by using a convention
+// adding _ to the name of the var is a convention to express it is private
+
+////////////ENCAPSULATION PRIVATE CLASS FIELDS AND METHODS////////////
+// Public fields
+// Private fields
+// Public methods
+// Private methods
+// static version
+
 class Account {
+  // defining a public field
+  locale = navigator.language;
+
+  //defining a private field
+  // # makes it private
+  #movements = [];
+  #pin;
+
   constructor(owner, currency, pin) {
     this.owner = owner;
     this.currency = currency;
-    this._pin = pin;
+    this.#pin = pin;
     // protected property
-    this._movements = [];
-    this.locale = navigator.language;
+    //this._movements = [];
+    //this.locale = navigator.language;
 
     console.log(`thanks you mr ${owner}`);
   }
 
+  // defining public methods
   getMovements() {
-    return this._movements;
+    return this.#movements;
   }
 
   // it is better to create methods that interact with the properties
   // these are the interface to our object, API
   deposit(val) {
-    this._movements.push(val);
+    this.#movements.push(val);
   }
 
   withdraw(val) {
@@ -341,6 +362,16 @@ class Account {
       console.log('loan approved');
     }
   }
+
+  // the static version will not be available on all instance but only th eclass itself
+  static helper() {
+    console.log('helper');
+  }
+
+  // defining a private method
+  // #approveLoan(val) {
+  //   return true;
+  // }
 }
 
 const acc1 = new Account('jerome', 'eur', 1111);
@@ -352,9 +383,9 @@ acc1._approveLoan(1000); // we can but shouldnt be allowed to access this method
 acc1.getMovements();
 
 console.log(acc1);
-console.log(acc1.pin); // we can but shouldnt access that
+//console.log(acc1._pin); // we can but shouldnt access that
+//console.log(acc1.#pin); // error
 
-////////////ENCAPSULATION PROTECTED PROPERTIES AND METHODS////////////
-// encapsulation keeps properties pprivate and secured while exposing what is necessary with an API
-// we can fake encapsulation by using a convention
-// adding _ to the name of the var is a convention to express it is private
+//console.log(acc1.#movements); // error
+
+Account.helper;
