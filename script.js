@@ -346,10 +346,12 @@ class Account {
   // these are the interface to our object, API
   deposit(val) {
     this.#movements.push(val);
+    return this;
   }
 
   withdraw(val) {
     this.deposit(-val);
+    return this;
   }
 
   _approveLoan(val) {
@@ -360,6 +362,7 @@ class Account {
     if (this._approveLoan(val)) {
       this.deposit(val);
       console.log('loan approved');
+      return this;
     }
   }
 
@@ -389,3 +392,9 @@ console.log(acc1);
 //console.log(acc1.#movements); // error
 
 Account.helper;
+
+////////////CHAINING METHODS////////////
+// just return the object itself at the end of the method that we want to be chainable
+// adding return this; makes the method chainable
+acc1.deposit(300).deposit(500).withdraw(35).requestLoan(25000).withdraw(4000);
+console.log(acc1.getMovements());
