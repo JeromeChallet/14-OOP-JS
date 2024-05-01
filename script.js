@@ -309,29 +309,34 @@ class Account {
   constructor(owner, currency, pin) {
     this.owner = owner;
     this.currency = currency;
-    this.pin = pin;
-    this.movements = [];
+    this._pin = pin;
+    // protected property
+    this._movements = [];
     this.locale = navigator.language;
 
     console.log(`thanks you mr ${owner}`);
   }
 
+  getMovements() {
+    return this._movements;
+  }
+
   // it is better to create methods that interact with the properties
   // these are the interface to our object, API
   deposit(val) {
-    this.movements.push(val);
+    this._movements.push(val);
   }
 
   withdraw(val) {
     this.deposit(-val);
   }
 
-  approveLoan(val) {
+  _approveLoan(val) {
     return true;
   }
 
   requestLoan(val) {
-    if (this.approveLoan(val)) {
+    if (this._approveLoan(val)) {
       this.deposit(val);
       console.log('loan approved');
     }
@@ -343,7 +348,13 @@ const acc1 = new Account('jerome', 'eur', 1111);
 acc1.deposit(250);
 acc1.withdraw(140);
 acc1.requestLoan(1000);
-acc1.approveLoan(1000); // we can but shouldnt be allowed to access this method
+acc1._approveLoan(1000); // we can but shouldnt be allowed to access this method
+acc1.getMovements();
 
 console.log(acc1);
 console.log(acc1.pin); // we can but shouldnt access that
+
+////////////ENCAPSULATION PROTECTED PROPERTIES AND METHODS////////////
+// encapsulation keeps properties pprivate and secured while exposing what is necessary with an API
+// we can fake encapsulation by using a convention
+// adding _ to the name of the var is a convention to express it is private
